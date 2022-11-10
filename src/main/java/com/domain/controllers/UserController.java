@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.domain.exception.UserNotFoundException;
+import com.domain.exception.NotFoundException;
 import com.domain.models.dto.UserRequest;
 import com.domain.models.entities.User;
 import com.domain.response.ResponseHandler;
 import com.domain.services.UserService;
+
+import lombok.Data;
 
 @RestController
 @RequestMapping("/api/users")
@@ -34,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> findOne(@PathVariable("id") Long id) throws UserNotFoundException {
+    public ResponseEntity<Object> findOne(@PathVariable("id") Long id) throws NotFoundException {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.findOne(id));
     }
 
@@ -46,14 +48,14 @@ public class UserController {
     }
 
     @GetMapping("/user")
-    public ResponseEntity<Object> findByName(@RequestParam("name") String name) throws UserNotFoundException {
+    public ResponseEntity<Object> findByName(@RequestParam("name") String name) throws NotFoundException {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.findByName(name));
     }
 
-    @PostMapping("")
-    public ResponseEntity<Object> save(@RequestParam("role") String role,
-            @Validated @RequestBody UserRequest userRequest) {
-        return ResponseHandler.generateResponse("success", HttpStatus.CREATED, userService.save(role, userRequest));
+    @PostMapping("/auth/register")
+    public ResponseEntity<Object> save(@Validated @RequestBody UserRequest userRequest) {
+        return ResponseHandler.generateResponse("success", HttpStatus.CREATED,
+                userService.save(userRequest));
     }
 
     @PutMapping("/{id}")
@@ -68,4 +70,15 @@ public class UserController {
         return new ResponseEntity<>("Success Deleted", HttpStatus.OK);
     }
 
+    @PostMapping("/project/user")
+    public ResponseEntity<String> addProjectToUser(@RequestBody ProjectToUserForm form) {
+        userService.addProjectToUser(form.getUserName(), form.getProjectName());
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
+}
+
+@Data
+class ProjectToUserForm {
+    private String userName;
+    private String projectName;
 }

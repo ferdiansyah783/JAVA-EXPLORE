@@ -1,6 +1,7 @@
 package com.domain.models.dto;
 
-import javax.validation.constraints.Email;
+import java.util.Date;
+
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
@@ -10,18 +11,14 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
-public class UserRequest {
+public class ProjectRequest {
     @NotEmpty
     private String name;
 
     @NotEmpty
-    private String username;
+    private String source;
 
-    @NotEmpty
-    @Email
-    private String email;
+    private Date start_date;
 
-    @NotEmpty
-    private String password;
-
+    private Date end_date;
 }
