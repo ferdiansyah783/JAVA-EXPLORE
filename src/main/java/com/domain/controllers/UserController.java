@@ -52,6 +52,11 @@ public class UserController {
         return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.findByName(name));
     }
 
+    @GetMapping("/user/search")
+    public ResponseEntity<Object> findByNameLike(@RequestParam("name") String name) {
+        return ResponseHandler.generateResponse("success", HttpStatus.OK, userService.findByNameLike(name));
+    }
+
     @PostMapping("/auth/register")
     public ResponseEntity<Object> save(@Validated @RequestBody UserRequest userRequest) {
         return ResponseHandler.generateResponse("success", HttpStatus.CREATED,

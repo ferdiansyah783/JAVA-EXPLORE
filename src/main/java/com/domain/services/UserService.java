@@ -125,4 +125,8 @@ public class UserService implements UserDetailsService {
             throw new NotFoundException("User Not Found");
         }
     }
+
+    public List<User> findByNameLike(String name) {
+        return userRepository.findByNameLike("%" + name + "%");
+    }
 }

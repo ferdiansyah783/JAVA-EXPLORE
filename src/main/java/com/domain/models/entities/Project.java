@@ -16,6 +16,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor(staticName = "build")
 @NoArgsConstructor
+@SQLDelete(sql = "UPDATE projects SET deleted = true WHERE id = ?")
+@Where(clause = "deleted = false")
 public class Project implements Serializable {
 
     @Id
@@ -47,6 +52,8 @@ public class Project implements Serializable {
 
     @Temporal(TemporalType.DATE)
     private Date end_date;
+
+    private Boolean deleted = Boolean.FALSE;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {
             CascadeType.PERSIST,

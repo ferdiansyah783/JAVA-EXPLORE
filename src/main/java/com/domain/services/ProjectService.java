@@ -50,7 +50,7 @@ public class ProjectService {
         }
 
         Project project = Project.build(id, projectRequest.getName(), projectRequest.getSource(),
-                projectDb.get().getStatus(), projectRequest.getStart_date(), projectRequest.getEnd_date(), null);
+                projectDb.get().getStatus(), projectRequest.getStart_date(), projectRequest.getEnd_date(), null, null);
 
         return projectRepository.save(project);
     }
