@@ -31,6 +31,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/roles").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/users/project/user").permitAll();
         http.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/api/projects").permitAll();
+        http.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/api/files/**").permitAll();
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.addFilter(new CustomAuthenticationFilter(authenticationManagerBean(authenticationConfiguration)));
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
